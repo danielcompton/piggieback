@@ -2,6 +2,9 @@
 
 VERSION ?= 1.9
 
+# We need bash (or rather, not /bin/sh) to ensure that brace expansion in `test-all` works properly
+SHELL=/bin/bash
+
 # Some tests need to be filtered based on JVM version.  This selector
 # will be mapped to a function in project.clj, and that function
 # determines which `deftest` to run based on their metadata.
@@ -13,6 +16,10 @@ test:
 	for v in "nrepl-0.4" "nrepl-0.5" "nrepl-0.6"; do \
 	  lein with-profile +$(VERSION),+$$v test; \
 	done;
+
+test-all:
+  # Use bash brace expansion to generate the cross product of Clojure versions and nrepl versions.
+	lein with-profile $$(printf -- "%s:" {1.8,1.9,1.10,master},{nrepl-0.4,nrepl-0.6,nrepl-0.6}) test
 
 eastwood:
 	lein with-profile +$(VERSION),+eastwood eastwood

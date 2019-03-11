@@ -20,25 +20,8 @@ defaults: &default-steps
         command: |
           make cljfmt
     - run:
-        name: Test Clojure 1.8
-        command: make test
-        environment:
-          VERSION: "1.8"
-    - run:
-        name: Test Clojure 1.9
-        command: make test
-        environment:
-          VERSION: "1.9"
-    - run:
-        name: Test Clojure 1.10
-        command: make test
-        environment:
-          VERSION: "1.10"
-    - run:
-        name: Test Clojure master
-        command: make test
-        environment:
-          VERSION: "master"
+        name: Test all combinations
+        command: make test-all
     - run:
         name: Running cloverage
         command: |
